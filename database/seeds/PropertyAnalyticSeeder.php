@@ -7,13 +7,12 @@ use App\Models\PropertyAnalytic;
 class PropertyAnalyticSeeder extends Seeder
 {
     /**
-     * @throws \Box\Spout\Common\Exception\IOException
-     * @throws \Box\Spout\Common\Exception\UnsupportedTypeException
-     * @throws \Box\Spout\Reader\Exception\ReaderNotOpenedException
+     * @param $fileName
+     * @param $fastExcelObject
      */
-    public function run()
+    public function run($fileName, $fastExcelObject)
     {
-        (new FastExcel)->sheet(3)->import(storage_path('BackEndTest_TestData_v1.1.xlsx'), function ($line) {
+        ($fastExcelObject)->sheet(3)->import(storage_path($fileName), function ($line) {
             return PropertyAnalytic::create([
                 'property_id' => $line['property_id'],
                 'analytic_type_id' => $line['anaytic_type_id'],
