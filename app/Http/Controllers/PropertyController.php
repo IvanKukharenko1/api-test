@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Requests\CreatePropertyRequest;
 use App\Http\Requests\AssignAnalyticToPropertyRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PropertyController extends Controller
 {
@@ -23,11 +24,8 @@ class PropertyController extends Controller
      * @param CreatePropertyRequest $request
      * @return JsonResponse
      */
-    public function create( CreatePropertyRequest $request )
+    public function create(CreatePropertyRequest $request)
     {
-        if (isset($request->validator) && $request->validator->fails()) {
-            return response()->json($request->validator->messages(), 400);
-        }
         return response()->json($this->propertyRepository->create($request->all()));
     }
 
@@ -38,14 +36,11 @@ class PropertyController extends Controller
      */
     public function assignAnalytic($id, AssignAnalyticToPropertyRequest $request)
     {
-        if (isset($request->validator) && $request->validator->fails()) {
-            return response()->json($request->validator->messages(), 400);
-        }
         try {
             $this->propertyRepository->attachAnalytic($request->all(), $id);
-            return response()->json('Success!', 400);
+            return response()->json('Success!', Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json('Something went wrong', 400);
+            return response()->json('Something went wrong', Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -56,14 +51,11 @@ class PropertyController extends Controller
      */
     public function updateAssignAnalytic($id, AssignAnalyticToPropertyRequest $request)
     {
-        if (isset($request->validator) && $request->validator->fails()) {
-            return response()->json($request->validator->messages(), 400);
-        }
         try {
             $this->propertyRepository->updateAttachedAnalytic($request->all(), $id);
-            return response()->json('Success!', 200);
+            return response()->json('Success!', Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json('Something went wrong', 400);
+            return response()->json('Something went wrong', Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -76,7 +68,7 @@ class PropertyController extends Controller
         try {
             return response()->json($this->propertyRepository->getAnalytic($id));
         } catch (Exception $e) {
-            return response()->json('Something went wrong', 400);
+            return response()->json('Something went wrong', Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -91,7 +83,7 @@ class PropertyController extends Controller
             $ids = $this->propertyRepository->getIdsByCondition($request->all());
             return response()->json($propertyAnalyticsRepository->getSummery($ids));
         } catch (Exception $e) {
-            return response()->json('Something went wrong', 400);
+            return response()->json('Something went wrong', Response::HTTP_BAD_REQUEST);
         }
     }
 }

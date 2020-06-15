@@ -4,13 +4,13 @@
 namespace App\Repository;
 
 
-use App\PropertyAnalytic;
+use App\Models\PropertyAnalytic;
 
 class PropertyAnalyticsRepository
 {
     private $model;
 
-    public function __construct( PropertyAnalytic $propertyAnalytic )
+    public function __construct(PropertyAnalytic $propertyAnalytic)
     {
         $this->model = $propertyAnalytic;
     }
@@ -19,27 +19,28 @@ class PropertyAnalyticsRepository
      * @param array $ids
      * @return mixed
      */
-    public function getByIds( array $ids )
+    public function getByIds(array $ids)
     {
         return $this->model->whereIn('id', $ids)->get();
     }
     /**
      * @param array $ids
-     * @return array|string
+     * @return array
      */
-    public function getSummery( array $ids )
+    public function getSummery(array $ids)
     {
         $data = $this->getByIds($ids);
         $count = $data->count();
-        if ( $count != 0 ) {
-            return [
-                'min' => $data->min()->value,
-                'max' => $data->max()->value,
-                'median' => $data->sum('value') / $data->count(),
-                'notNullPercentage' => ( $data->whereNotNull('value')->count() * 100 ) /$count,
-                'NullPercentage' => ( $data->whereNull('value')->count() * 100 ) /$count
-            ];
+        if ($count == 0) {
+            return [];
         }
-        return 'Nothing was found';
+        $notNullPercentage = ( $data->whereNotNull('value')->count() * 100 ) /$count;
+        return [
+            'min' => $data->min()->value,
+            'max' => $data->max()->value,
+            'median' => $data->sum('value') / $data->count(),
+            'notNullPercentage' => $notNullPercentage,
+            'nullPercentage' => 100 - $notNullPercentage
+        ];
     }
 }

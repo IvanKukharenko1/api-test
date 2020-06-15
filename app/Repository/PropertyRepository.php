@@ -1,14 +1,13 @@
 <?php
 namespace App\Repository;
 
-use App\Property;
-use App\PropertyAnalytic;
+use App\Models\Property;
 
 class PropertyRepository
 {
     private $model;
 
-    public function __construct( Property $model )
+    public function __construct(Property $model)
     {
         $this->model = $model;
     }
@@ -28,7 +27,7 @@ class PropertyRepository
      */
     public function find($id)
     {
-        return $this->model->find($id);
+        return $this->model->findOrFail($id);
     }
 
     /**
@@ -61,7 +60,7 @@ class PropertyRepository
      */
     public function getAnalytic($id)
     {
-        return $this->model->find($id)->analyticTypes()->get();
+        return $this->find($id)->analyticTypes()->get();
     }
 
     /**
@@ -74,6 +73,10 @@ class PropertyRepository
         return $this->model->where($key, $value);
     }
 
+    /**
+     * @param $requestData
+     * @return mixed
+     */
     public function getIdsByCondition($requestData)
     {
         $key = array_key_first($requestData);
