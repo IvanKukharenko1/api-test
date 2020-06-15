@@ -2,14 +2,14 @@
 
 use Illuminate\Database\Seeder;
 use Rap2hpoutre\FastExcel\FastExcel;
-use App\AnalyticType;
+use App\Models\AnalyticType;
 
 class AnalyticTypeSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * @throws \Box\Spout\Common\Exception\IOException
+     * @throws \Box\Spout\Common\Exception\UnsupportedTypeException
+     * @throws \Box\Spout\Reader\Exception\ReaderNotOpenedException
      */
     public function run()
     {
