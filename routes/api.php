@@ -23,7 +23,7 @@ Route::middleware('api')->post('/property', 'PropertyController@create');
 Route::middleware('api')->post('/property/{id}', 'PropertyController@assignAnalytic');
 //Update assign analytic type to property route
 Route::middleware('api')->post('/property/{id}/update', 'PropertyController@updateAssignAnalytic');
-//Get all analytics for a property
+//Get all analytics for a property route
 Route::middleware('api')->get('/property/{id}', 'PropertyController@show');
-//Get analytics summery by query
+//Get analytics summery by query route
 Route::middleware('api')->get('/analyticsSummery', 'PropertyController@index');
