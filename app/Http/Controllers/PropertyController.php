@@ -49,7 +49,7 @@ class PropertyController extends Controller
      * @param AssignAnalyticToPropertyRequest $request
      * @return JsonResponse
      */
-    public function updateAssignAnalytic($id, AssignAnalyticToPropertyRequest $request)
+    public function update($id, AssignAnalyticToPropertyRequest $request)
     {
         try {
             $this->propertyRepository->updateAttachedAnalytic($request->all(), $id);

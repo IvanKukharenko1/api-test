@@ -13,17 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-//Create property route
-Route::middleware('api')->post('/property', 'PropertyController@create');
-//Assign analytic type to property route
-Route::middleware('api')->post('/property/{id}', 'PropertyController@assignAnalytic');
-//Update assign analytic type to property route
-Route::middleware('api')->post('/property/{id}/update', 'PropertyController@updateAssignAnalytic');
-//Get all analytics for a property route
-Route::middleware('api')->get('/property/{id}', 'PropertyController@show');
-//Get analytics summery by query route
-Route::middleware('api')->get('/analyticsSummery', 'PropertyController@index');
+Route::middleware('api')->group(function () {
+    //Create property route
+    Route::post('/property', 'PropertyController@create');
+    //Assign analytic type to property route
+    Route::post('/property/{id}', 'PropertyController@assignAnalytic');
+    //Update assign analytic type to property route
+    Route::put('/property/{id}', 'PropertyController@update');
+    //Get all analytics for a property route
+    Route::get('/property/{id}', 'PropertyController@show');
+    //Get analytics summery by query route
+    Route::get('/analyticsSummery', 'PropertyController@index');
+});
