@@ -45,7 +45,7 @@ class PropertyController extends Controller
             $this->propertyRepository->attachAnalytic($request->all(), $id);
             return response()->json('Success!', 400);
         } catch (Exception $e) {
-            return response()->json('Something went wrong', 404);
+            return response()->json('Something went wrong', 400);
         }
     }
 
@@ -61,9 +61,9 @@ class PropertyController extends Controller
         }
         try {
             $this->propertyRepository->updateAttachedAnalytic($request->all(), $id);
-            return response()->json('Success!', 400);
+            return response()->json('Success!', 200);
         } catch (Exception $e) {
-            return response()->json('Something went wrong', 403);
+            return response()->json('Something went wrong', 400);
         }
     }
 
@@ -76,7 +76,7 @@ class PropertyController extends Controller
         try {
             return response()->json($this->propertyRepository->getAnalytic($id));
         } catch (Exception $e) {
-            return response()->json('Something went wrong', 403);
+            return response()->json('Something went wrong', 400);
         }
     }
 
@@ -91,7 +91,7 @@ class PropertyController extends Controller
             $ids = $this->propertyRepository->getIdsByCondition($request->all());
             return response()->json($propertyAnalyticsRepository->getSummery($ids));
         } catch (Exception $e) {
-            return response()->json('Something went wrong', 403);
+            return response()->json('Something went wrong', 400);
         }
     }
 }
